@@ -4,6 +4,8 @@ import jsSHA from 'jssha';
 
 import { useState, useEffect } from 'react';
 import Restaurant from './Restaurant';
+import Hotel from './Hotel';
+import Activity from './Activity';
 
 function App() {
 
@@ -11,8 +13,9 @@ function App() {
   const [currentCity, setCity] = useState('Taipei');
   const [searchInput, setSearchInput] = useState('');
   const [topic, setTopic] = useState('ScenicSpot');
-  const [restaurantlength,setRestaurantlength] = useState(0)
-
+  const [restaurantlength, setRestaurantlength] = useState(0)
+  const [hotellength, setHotellength] = useState(0)
+  const [activitylength, setActivitylength]=useState(0)
 
   const citys =
     [
@@ -121,17 +124,21 @@ function App() {
       </select>
       <h1>{citys.filter(item => item[1] === currentCity)[0][0]}</h1>
 
-      <div class="tab">
-        <button class="tablinks" onClick={() => handleTopic('ScenicSpot')}>景點({listItems.length})</button>
-        <button class="tablinks" onClick={() => handleTopic('Restaurant')}>餐廳({restaurantlength})</button>
-
+      <div className="tab">
+        <button className="tablinks" onClick={() => handleTopic('ScenicSpot')}>景點({listItems.length})</button>
+        <button className="tablinks" onClick={() => handleTopic('Restaurant')}>餐廳({restaurantlength})</button>
+        <button className="tablinks" onClick={() => handleTopic('Hotel')}>住宿({hotellength})</button>
+        <button className="tablinks" onClick={() => handleTopic('Activity')}>活動({activitylength})</button>
       </div>
-      {topic === 'Restaurant' && <Restaurant searchInput={searchInput} currentCity={currentCity} setRestaurantlength={setRestaurantlength}/>}
       {topic === 'ScenicSpot' && <div>
         <hr />
         <header className="App-header">
           {listItems}
         </header></div>}
+      {topic === 'Restaurant' && <Restaurant searchInput={searchInput} currentCity={currentCity} setRestaurantlength={setRestaurantlength} />}
+      {topic === 'Hotel' && <Hotel searchInput={searchInput} currentCity={currentCity} setHotellength={setHotellength} />}
+      {topic === 'Activity' && <Activity searchInput={searchInput} currentCity={currentCity} setActivitylength={setActivitylength} />}
+
 
     </div>
   );

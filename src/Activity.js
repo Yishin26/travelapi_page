@@ -3,7 +3,7 @@ import axios from 'axios';
 import jsSHA from 'jssha';
 
 
-const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
+const Activity =({currentCity,searchInput,setActivitylength})=>{
     
     const [data, setData] = useState([]);
 
@@ -25,7 +25,7 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
 
     useEffect(() => {
         axios
-          .get(`https://ptx.transportdata.tw/MOTC/v2/Tourism/Restaurant/${currentCity}`, {
+          .get(`https://ptx.transportdata.tw/MOTC/v2/Tourism/Activity/${currentCity}`, {
             headers: getAuthorizationHeader()
           })
           .then(function (response) {
@@ -58,7 +58,7 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
         </div>)
       })
       if( listItems ){
-        setRestaurantlength(listItems.length)
+        setActivitylength(listItems.length)
       }
       
 
@@ -74,4 +74,4 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
     )
 }
 
-export default Restaurant;
+export default Activity;

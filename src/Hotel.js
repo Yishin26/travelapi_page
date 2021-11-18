@@ -3,7 +3,7 @@ import axios from 'axios';
 import jsSHA from 'jssha';
 
 
-const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
+const Hotel =({currentCity,searchInput,setHotellength})=>{
     
     const [data, setData] = useState([]);
 
@@ -25,16 +25,14 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
 
     useEffect(() => {
         axios
-          .get(`https://ptx.transportdata.tw/MOTC/v2/Tourism/Restaurant/${currentCity}`, {
+          .get(`https://ptx.transportdata.tw/MOTC/v2/Tourism/Hotel/${currentCity}`, {
             headers: getAuthorizationHeader()
           })
           .then(function (response) {
             console.log(response.data)
             setData(response.data)
-            
           })
           .catch(error => console.log(error));
-         
       }, [currentCity])
      
 
@@ -43,8 +41,8 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
           <h3>{item.Name}</h3>
     
           <ul className='class-tag'>
-            <li>餐廳</li>
-            {item.Class && <li>{item.Class}</li>}
+            <li>住宿</li>
+            
           
           </ul>
     
@@ -57,10 +55,10 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
           <p>資料更新時間：{item.SrcUpdateTime}</p>
         </div>)
       })
+     
       if( listItems ){
-        setRestaurantlength(listItems.length)
+        setHotellength(listItems.length)
       }
-      
 
     return(
        <div>
@@ -74,4 +72,4 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
     )
 }
 
-export default Restaurant;
+export default Hotel;

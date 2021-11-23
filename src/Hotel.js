@@ -42,7 +42,7 @@ const Hotel =({currentCity,searchInput,setHotellength})=>{
     
           <ul className='class-tag'>
             <li>住宿</li>
-            
+            {item.Class && <li>{item.Class}</li>}
           
           </ul>
     

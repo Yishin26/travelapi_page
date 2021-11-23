@@ -50,6 +50,7 @@ const Restaurant =({currentCity,searchInput,setRestaurantlength})=>{
     
           {item.Address && <p>Address:{item.Address}</p>}
           {item.Phone && <p>Phone: {item.Phone}</p>}
+          {item.OpenTime && <p>營業時間: {item.OpenTime}</p>}
           {item.Picture.PictureUrl1 && <img src={item.Picture.PictureUrl1} alt="" />}
           {/* <p>{item.DescriptionDetail}</p> */}
           {item.TicketInfo && <p>票價：{item.TicketInfo}</p>}

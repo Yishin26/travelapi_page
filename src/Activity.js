@@ -43,9 +43,9 @@ const Activity =({currentCity,searchInput,setActivitylength})=>{
           <h3>{item.Name}</h3>
     
           <ul className='class-tag'>
-            <li>餐廳</li>
-            {item.Class && <li>{item.Class}</li>}
-          
+            <li>活動</li>
+            {item.Class1 && <li>{item.Class1}</li>}
+            {item.Class2 && <li>{item.Class2}</li>}
           </ul>
     
           {item.Address && <p>Address:{item.Address}</p>}

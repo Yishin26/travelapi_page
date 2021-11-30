@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Restaurant from './Restaurant';
 import Hotel from './Hotel';
 import Activity from './Activity';
+import DetailCard from './DetailCard';
 
 function App() {
 
@@ -15,7 +16,9 @@ function App() {
   const [topic, setTopic] = useState('ScenicSpot');
   const [restaurantlength, setRestaurantlength] = useState(0)
   const [hotellength, setHotellength] = useState(0)
-  const [activitylength, setActivitylength]=useState(0)
+  const [activitylength, setActivitylength] = useState(0)
+  const [currentItemInfo, setItemInfo] = useState('')
+  const [isShowCard, setShowCard] = useState(false)
 
   const citys =
     [
@@ -56,7 +59,7 @@ function App() {
   }, [currentCity]);
 
   const listItems = data.map((item) => {
-    return (item.Name.includes(searchInput) && <div className='item-card' key={item.ID} >
+    return (item.Name.includes(searchInput) && <div className='item-card' key={item.ID} onClick={() => openCard(item)}>
       <h3>{item.Name}</h3>
 
       <ul className='class-tag'>
@@ -102,19 +105,24 @@ function App() {
 
 
   }
+  function openCard(item) {
+    setShowCard(true)
+    setItemInfo(item);
+  }
 
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
   }
   function handleTopic(item) {
-
     setTopic(item)
-
-
+  }
+  const closeCard=()=> {
+    setShowCard(false)
   }
 
   return (
     <div className="App">
+      {isShowCard&&<DetailCard itemInfo={currentItemInfo} closeCard={closeCard} />}
       <input
         placeholder='Search...'
         onChange={(e) => searchItems(e.target.value)}

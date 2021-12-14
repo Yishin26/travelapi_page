@@ -7,6 +7,8 @@ import Restaurant from './Restaurant';
 import Hotel from './Hotel';
 import Activity from './Activity';
 import DetailCard from './DetailCard';
+import ReactPaginate from 'react-paginate';
+
 
 function App() {
 
@@ -99,6 +101,72 @@ function App() {
     return { 'Authorization': Authorization, 'X-Date': GMTString };
   }
 
+  function Items({ currentItems }) {
+    return (
+      <div>
+        {topic === 'ScenicSpot' && <div>
+          <hr />
+          <header className="App-header">
+            {currentItems}
+          </header></div>}</div>
+
+    );
+  }
+
+
+  function PaginatedItems({ itemsPerPage }) {
+    // We start with an empty list of items.
+    const [currentItems, setCurrentItems] = useState(null);
+    const [pageCount, setPageCount] = useState(0);
+    // Here we use item offsets; we could also use page offsets
+    // following the API or data you're working with.
+    const [itemOffset, setItemOffset] = useState(0);
+
+    useEffect(() => {
+      // Fetch items from another resources.
+      const endOffset = itemOffset + itemsPerPage;
+      console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+      setCurrentItems(listItems.slice(itemOffset, endOffset));
+      setPageCount(Math.ceil(listItems.length / itemsPerPage));
+    }, [itemOffset, itemsPerPage]);
+
+    // Invoke when user click to request another page.
+    const handlePageClick = (event) => {
+      const newOffset = event.selected * itemsPerPage % listItems.length;
+      console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+      setItemOffset(newOffset);
+    };
+
+    return (
+      <>
+        <Items currentItems={currentItems} />
+        <div className='pagination-wrap'>
+          <ReactPaginate
+            nextLabel="next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={pageCount}
+            previousLabel="< previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+          />
+        </div>
+
+      </>
+    );
+  }
+
   function handleCity(item) {
     console.log(item)
     setCity(item)
@@ -116,13 +184,14 @@ function App() {
   function handleTopic(item) {
     setTopic(item)
   }
-  const closeCard=()=> {
+  const closeCard = () => {
     setShowCard(false)
   }
 
   return (
     <div className="App">
-      {isShowCard&&<DetailCard itemInfo={currentItemInfo} closeCard={closeCard} />}
+
+      {isShowCard && <DetailCard itemInfo={currentItemInfo} closeCard={closeCard} />}
       <input
         placeholder='Search...'
         onChange={(e) => searchItems(e.target.value)}
@@ -138,14 +207,15 @@ function App() {
         <button className="tablinks" onClick={() => handleTopic('Hotel')}>住宿({hotellength})</button>
         <button className="tablinks" onClick={() => handleTopic('Activity')}>活動({activitylength})</button>
       </div>
-      {topic === 'ScenicSpot' && <div>
-        <hr />
-        <header className="App-header">
-          {listItems}
-        </header></div>}
+
       {topic === 'Restaurant' && <Restaurant searchInput={searchInput} currentCity={currentCity} setRestaurantlength={setRestaurantlength} />}
       {topic === 'Hotel' && <Hotel searchInput={searchInput} currentCity={currentCity} setHotellength={setHotellength} />}
       {topic === 'Activity' && <Activity searchInput={searchInput} currentCity={currentCity} setActivitylength={setActivitylength} />}
+
+
+      <PaginatedItems itemsPerPage={6} className='pagenatedItems' />
+
+
 
 
     </div>
